@@ -32,14 +32,14 @@ public class WeightBarData {
   // triggered on player tick event
   public static void triggerServerSideEffects(Player player, int playerInvWeight, int maxInvWeight) {
 
-    Constants.info("TriggerServerSideEffects");
+    Constants.debug("TriggerServerSideEffects");
 
     final int hugeHeavyCount = CuriosHelpers.countOverburdened(player);
 
     boolean isOverburdened = WeightBarHelpers.getIsOverburdened(playerInvWeight, maxInvWeight, hugeHeavyCount);
 
     if (isOverburdened) {
-      Constants.info("overburdened effects");
+      Constants.debug("overburdened effects");
 
       // since player cannot move when overburdened - do need to add hunger to player
       // if (Config.enableFoodExhaustion) {
@@ -55,7 +55,7 @@ public class WeightBarData {
 
     // condition to not run twice
     if (!isOverburdened && isExhausted) {
-      Constants.info("exhausted effects");
+      Constants.debug("exhausted effects");
 
       // Add exhaustion to food data
       if (Config.enableFoodExhaustion) {
@@ -67,7 +67,7 @@ public class WeightBarData {
       }
     }
 
-    Constants.info("Nickname: " + player.getName() + "; Current Weight: " + playerInvWeight + "; Max Weight: "
+    Constants.debug("Nickname: " + player.getName() + "; Current Weight: " + playerInvWeight + "; Max Weight: "
         + maxInvWeight + "; Is Exhausted: "
         + isExhausted + "; Is Overburdened: " + isOverburdened + "; Bar color: "
         + WeightBarHelpers.getBarColor(playerInvWeight, maxInvWeight, hugeHeavyCount) + "; Bar percentage: "

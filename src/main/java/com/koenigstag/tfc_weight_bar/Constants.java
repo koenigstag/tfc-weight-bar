@@ -8,12 +8,14 @@ public class Constants {
 
   public static final Logger LOGGER = LogUtils.getLogger();
 
+  public static final boolean DEBUG_MODE = false;
+
   public static void info(String message) {
     LOGGER.info("[" + MOD_ID + "] " + message);
   }
 
   public static void debug(String message) {
-    if (Config.debugMode) {
+    if (DEBUG_MODE) {
       LOGGER.info("[" + MOD_ID + "] " + message);
     }
   }

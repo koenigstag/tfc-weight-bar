@@ -2,7 +2,9 @@ package com.koenigstag.tfc_weight_bar;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import top.theillusivec4.curios.api.CuriosApi;
@@ -16,6 +18,11 @@ import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
+
+        public static void init() {
+                ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        }
+
         private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
         private static final ForgeConfigSpec.BooleanValue ENABLE_MOD = BUILDER
@@ -75,7 +82,6 @@ public class Config {
 
         public static boolean enableModCalculations;
         public static boolean enableUIBar;
-        public static boolean debugMode = false;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
