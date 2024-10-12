@@ -15,9 +15,10 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-
+import net.dries007.tfc.common.capabilities.VesselLike;
 import net.dries007.tfc.common.capabilities.size.IItemSize;
 import net.dries007.tfc.common.capabilities.size.ItemSizeManager;
+import net.dries007.tfc.common.items.VesselItem;
 import net.dries007.tfc.common.TFCEffects;
 
 public class WeightBarHelpers {
@@ -45,8 +46,6 @@ public class WeightBarHelpers {
   public static int getItemStackWeightInt(ItemStack itemStack) {
     if (!itemStack.isEmpty()) {
 
-      LazyOptional<IItemHandler> capability = itemStack.getCapability(ForgeCapabilities.ITEM_HANDLER);
-
       IItemSize size = ItemSizeManager.get(itemStack);
 
       int itemCount = itemStack.getCount();
@@ -57,11 +56,18 @@ public class WeightBarHelpers {
       int itemStackWeight = Math.round((weightInt + sizeInt) * itemCount);
 
       // if item stack is item holder (e.g. backpack)
+      LazyOptional<IItemHandler> itemHandlerCapability = itemStack.getCapability(ForgeCapabilities.ITEM_HANDLER);
       int itemHolderWeight = 0;
-      if (capability.isPresent()) {
-        IItemHandler itemHandler = capability.resolve().get();
+      if (itemHandlerCapability.isPresent()) {
+        IItemHandler itemHandler = itemHandlerCapability.resolve().get();
 
         itemHolderWeight += calculateItemHandlerWeight(itemHandler);
+      }
+
+      if (itemStack.getItem() instanceof VesselItem) {
+        VesselLike vessel = VesselItem.getInventoryVessel(itemStack);
+
+        itemHolderWeight += calculateItemHandlerWeight(vessel);
       }
 
       return itemStackWeight + itemHolderWeight;
