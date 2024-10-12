@@ -4,10 +4,15 @@ import net.minecraft.world.Container;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-
+import net.minecraftforge.items.ItemHandlerHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
@@ -39,6 +44,9 @@ public class WeightBarHelpers {
 
   public static int getItemStackWeightInt(ItemStack itemStack) {
     if (!itemStack.isEmpty()) {
+
+      LazyOptional<IItemHandler> capability = itemStack.getCapability(ForgeCapabilities.ITEM_HANDLER);
+
       IItemSize size = ItemSizeManager.get(itemStack);
 
       int itemCount = itemStack.getCount();
@@ -46,7 +54,17 @@ public class WeightBarHelpers {
       int weightInt = Config.getWeightIntConfig(size.getWeight(itemStack));
       int sizeInt = Config.getSizeIntConfig(size.getSize(itemStack));
 
-      return Math.round((weightInt + sizeInt) * itemCount);
+      int itemStackWeight = Math.round((weightInt + sizeInt) * itemCount);
+
+      // if item stack is item holder (e.g. backpack)
+      int itemHolderWeight = 0;
+      if (capability.isPresent()) {
+        IItemHandler itemHandler = capability.resolve().get();
+
+        itemHolderWeight += calculateItemHandlerWeight(itemHandler);
+      }
+
+      return itemStackWeight + itemHolderWeight;
     }
 
     return 0;
@@ -61,6 +79,22 @@ public class WeightBarHelpers {
 
     for (int i = 0; i < container.getContainerSize(); i++) {
       ItemStack itemStack = container.getItem(i);
+
+      totalWeight += getItemStackWeightInt(itemStack);
+    }
+
+    return totalWeight;
+  }
+
+  public static int calculateItemHandlerWeight(final IItemHandler itemHandler) {
+    if (itemHandler == null) {
+      return 0;
+    }
+
+    int totalWeight = 0;
+
+    for (int i = 0; i < itemHandler.getSlots(); i++) {
+      ItemStack itemStack = itemHandler.getStackInSlot(i);
 
       totalWeight += getItemStackWeightInt(itemStack);
     }

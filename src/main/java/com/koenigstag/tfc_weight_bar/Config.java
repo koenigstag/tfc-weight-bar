@@ -23,8 +23,8 @@ public class Config {
                         .define("enable_weight_calculations", true);
 
         private static final ForgeConfigSpec.BooleanValue ENABLE_UI_BAR = BUILDER
-                        .comment("Enable weight bar on UI. Default: true")
-                        .define("enable_ui_bar", true);
+                        .comment("Enable weight bar on UI. Default: false")
+                        .define("enable_ui_bar", false);
 
         private static final ForgeConfigSpec.BooleanValue ENABLE_WEIGHT_DEBUFFS = BUILDER
                         .comment("Whether to enable weight debuffs. Default: true")
@@ -75,7 +75,7 @@ public class Config {
 
         public static boolean enableModCalculations;
         public static boolean enableUIBar;
-        public static boolean debugMode = true;
+        public static boolean debugMode = false;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
