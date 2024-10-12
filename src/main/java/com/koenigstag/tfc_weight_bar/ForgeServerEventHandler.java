@@ -17,7 +17,7 @@ public final class ForgeServerEventHandler {
   public static void init() {
     final IEventBus bus = MinecraftForge.EVENT_BUS;
 
-    bus.register(ForgeClientEventHandler.class);
+    bus.register(ForgeServerEventHandler.class);
 
     Constants.info("Setup server event handler complete");
   }
