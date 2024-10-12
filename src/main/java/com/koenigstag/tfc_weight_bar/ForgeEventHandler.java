@@ -22,6 +22,10 @@ public final class ForgeEventHandler {
   }
 
   public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    if (Config.enableModCalculations == false) {
+      return;
+    }
+
     // When facing up in the rain, player slowly recovers thirst.
     final Player player = event.player;
     final Level level = player.level();

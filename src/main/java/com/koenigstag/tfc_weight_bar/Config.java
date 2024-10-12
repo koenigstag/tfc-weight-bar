@@ -14,18 +14,13 @@ import net.dries007.tfc.common.capabilities.size.Size;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
-  From TFC Weight Enum
-    VERY_LIGHT(64), // 1 points
-    LIGHT(32), // 4 points
-    MEDIUM(16), // 16 points
-    HEAVY(4), // 32 points
-    VERY_HEAVY(1); // 64 points
- */
-
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
         private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+
+        private static final ForgeConfigSpec.BooleanValue ENABLE_MOD = BUILDER
+                        .comment("Enable this mod. Default: true")
+                        .define("enable_weight_calculations", true);
 
         private static final ForgeConfigSpec.BooleanValue ENABLE_WEIGHT_DEBUFFS = BUILDER
                         .comment("Whether to enable weight debuffs. Default: true")
@@ -73,7 +68,8 @@ public class Config {
 
         static final ForgeConfigSpec SPEC = BUILDER.build();
 
-        public static boolean enableWeightCalculations;
+
+        public static boolean enableModCalculations;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
@@ -83,7 +79,7 @@ public class Config {
 
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
-                enableWeightCalculations = ENABLE_CURIOS_SLOTS_CHECK.get();
+                enableModCalculations = ENABLE_MOD.get();
 
                 curios_slots = SLOT_NAME_STRINGS.get().stream()
                                 .map(slotId -> CuriosApi.getSlot(slotId, getIsClient()).get())
@@ -100,7 +96,16 @@ public class Config {
                 enableFoodExhaustion = ENABLE_FOOD_EXHAUSTION.get();
         }
 
+
         public static int getWeightIntConfig(Weight weight) {
+                /*  From TFC Weight Enum
+                    Default values are:
+                    VERY_LIGHT(64), // 1 points
+                    LIGHT(32), // 4 points
+                    MEDIUM(16), // 16 points
+                    HEAVY(4), // 32 points
+                    VERY_HEAVY(1); // 64 points
+                */
                 switch (weight) {
                         case Weight.VERY_LIGHT:
                                 return VERY_LIGHT_WEIGHT.get();
