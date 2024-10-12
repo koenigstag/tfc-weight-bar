@@ -22,10 +22,6 @@ public class Config {
                         .comment("Enable this mod. Default: true")
                         .define("enable_weight_calculations", true);
 
-        private static final ForgeConfigSpec.BooleanValue DEBUG_MODE = BUILDER
-                        .comment("Enable DEBUG mode. Default: false")
-                        .define("debug_mode", false);
-
         private static final ForgeConfigSpec.BooleanValue ENABLE_UI_BAR = BUILDER
                         .comment("Enable weight bar on UI. Default: true")
                         .define("enable_ui_bar", true);
@@ -78,8 +74,8 @@ public class Config {
 
 
         public static boolean enableModCalculations;
-        public static boolean debugMode;
         public static boolean enableUIBar;
+        public static boolean debugMode = true;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
@@ -90,8 +86,6 @@ public class Config {
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
                 enableModCalculations = ENABLE_MOD.get();
-
-                debugMode = DEBUG_MODE.get();
 
                 enableUIBar = ENABLE_UI_BAR.get();
 
@@ -142,8 +136,6 @@ public class Config {
         }
 
         public static double getExhaustedWeightCoefficient() {
-                Constants.debug("getExhaustedWeightCoefficient: " + exhaustedWeightPercentage + " / " + 100);
-
                 return (double) exhaustedWeightPercentage / (double) 100;
         }
 

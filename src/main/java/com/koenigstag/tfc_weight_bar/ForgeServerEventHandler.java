@@ -2,21 +2,27 @@ package com.koenigstag.tfc_weight_bar;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.dries007.tfc.config.TFCConfig;
 
-public final class ForgeEventHandler {
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Bus.FORGE, value = Dist.DEDICATED_SERVER)
+public final class ForgeServerEventHandler {
 
   public static void init() {
     final IEventBus bus = MinecraftForge.EVENT_BUS;
 
-    bus.addListener(ForgeEventHandler::onPlayerTick);
+    bus.register(ForgeClientEventHandler.class);
+
+    Constants.info("Setup server event handler complete");
   }
 
-  // server side player tick event
+  @SubscribeEvent
   public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
     if (Config.enableModCalculations == false) {
       return;

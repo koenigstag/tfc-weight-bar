@@ -25,9 +25,10 @@ public class ForgeClientEventHandler {
     final IEventBus bus = MinecraftForge.EVENT_BUS;
 
     bus.register(ForgeClientEventHandler.class);
+
+    Constants.info("Setup client event handler complete");
   }
 
-  // client side player tick event
   @SubscribeEvent
   public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
     if (Config.enableModCalculations == false) {
@@ -72,7 +73,7 @@ public class ForgeClientEventHandler {
   }
 
   private static String chatMessageText(int playerInvWeight, int maxInvWeight, double barPercentage) {
-    String message = "Weight: " + playerInvWeight + "/" + maxInvWeight + " (" + barPercentage + "%)";
+    String message = "Weight: " + playerInvWeight + "/" + maxInvWeight + " (" + Math.round(barPercentage * 100) + "%)";
 
     return message;
   }

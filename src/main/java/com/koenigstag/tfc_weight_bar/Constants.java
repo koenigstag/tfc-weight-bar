@@ -14,7 +14,7 @@ public class Constants {
 
   public static void debug(String message) {
     if (Config.debugMode) {
-      info(message);
+      LOGGER.info("[" + MOD_ID + "] " + message);
     }
   }
 }
