@@ -39,7 +39,7 @@ public final class ForgeEventHandler {
       // set current weight do display
       WeightBarGUI.changeCurrentWeight(playerInvWeight);
 
-      Constants.LOGGER.info("Huge Heavy Count: " + hugeHeavyCount);
+      Constants.debug("Huge Heavy Count: " + hugeHeavyCount);
 
       boolean isOverburdened = getIsOverburdened(playerInvWeight, maxInvWeight, hugeHeavyCount);
 

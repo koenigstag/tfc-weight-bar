@@ -37,7 +37,7 @@ public class WeightBarGUI {
   public static void triggerSideEffects() {
     // TODO side effects
 
-    Constants.LOGGER.info("Current Weight: " + WeightBarGUI.currentWeight + "; Is Exhausted: " + WeightBarGUI.isExhausted + "; Is Overburdened: " + WeightBarGUI.isOverburdened + "; Bar color: " + WeightBarGUI.getBarColor());
+    Constants.debug("Current Weight: " + WeightBarGUI.currentWeight + "; Is Exhausted: " + WeightBarGUI.isExhausted + "; Is Overburdened: " + WeightBarGUI.isOverburdened + "; Bar color: " + WeightBarGUI.getBarColor());
   }
 
   public static String getBarColor() {

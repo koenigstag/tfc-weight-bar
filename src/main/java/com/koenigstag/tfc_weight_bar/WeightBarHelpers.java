@@ -95,12 +95,12 @@ public class WeightBarHelpers {
   }
 
   public static boolean isPlayerExhausted(int playerInvWeight, int maxInvWeight) {
-    Constants.LOGGER.info("isPlayerExhausted: " + playerInvWeight + " >= " + "( " + maxInvWeight + " * " + Config.getExhaustedWeightCoefficient() + " )");
+    Constants.debug("isPlayerExhausted: " + playerInvWeight + " >= " + "( " + maxInvWeight + " * " + Config.getExhaustedWeightCoefficient() + " )");
     return playerInvWeight >= (maxInvWeight * Config.getExhaustedWeightCoefficient());
   }
 
   public static boolean isPlayerOverburdened(int playerInvWeight, int maxInvWeight) {
-    Constants.LOGGER.info("isPlayerOverburdened: " + playerInvWeight + " > " + maxInvWeight);
+    Constants.debug("isPlayerOverburdened: " + playerInvWeight + " > " + maxInvWeight);
 
     return playerInvWeight > maxInvWeight;
   }

@@ -28,14 +28,12 @@ public class TFCWeightBar {
 
   private void commonSetup(final FMLCommonSetupEvent event) {
     // Some common setup code
-    Constants.LOGGER.info("On common Setup");
   }
 
   // You can use SubscribeEvent and let the Event Bus discover methods to call
   @SubscribeEvent
   public void onServerStarting(ServerStartingEvent event) {
     // Do something when the server starts
-    Constants.LOGGER.info("On server starting");
   }
 
   // You can use EventBusSubscriber to automatically register all static methods
@@ -45,7 +43,6 @@ public class TFCWeightBar {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
       // Some client setup code
-      Constants.LOGGER.info("On client setup");
     }
   }
 }

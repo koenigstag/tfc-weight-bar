@@ -22,6 +22,10 @@ public class Config {
                         .comment("Enable this mod. Default: true")
                         .define("enable_weight_calculations", true);
 
+        private static final ForgeConfigSpec.BooleanValue DEBUG_MODE = BUILDER
+                        .comment("Enable DEBUG mode. Default: false")
+                        .define("debug_mode", false);
+
         private static final ForgeConfigSpec.BooleanValue ENABLE_WEIGHT_DEBUFFS = BUILDER
                         .comment("Whether to enable weight debuffs. Default: true")
                         .define("enable_weight_debuffs", true);
@@ -70,6 +74,7 @@ public class Config {
 
 
         public static boolean enableModCalculations;
+        public static boolean debugMode;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
@@ -80,6 +85,8 @@ public class Config {
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
                 enableModCalculations = ENABLE_MOD.get();
+
+                debugMode = DEBUG_MODE.get();
 
                 curios_slots = SLOT_NAME_STRINGS.get().stream()
                                 .map(slotId -> CuriosApi.getSlot(slotId, getIsClient()).get())
@@ -128,7 +135,7 @@ public class Config {
         }
 
         public static double getExhaustedWeightCoefficient() {
-                Constants.LOGGER.info("getExhaustedWeightCoefficient: " + exhaustedWeightPercentage + " / " + 100);
+                Constants.debug("getExhaustedWeightCoefficient: " + exhaustedWeightPercentage + " / " + 100);
 
                 return (double) exhaustedWeightPercentage / (double) 100;
         }
