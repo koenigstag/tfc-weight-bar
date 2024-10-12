@@ -107,17 +107,18 @@ public class Config {
                     VERY_HEAVY(1); // 64 points
                 */
                 switch (weight) {
-                        case Weight.VERY_LIGHT:
+                        case VERY_LIGHT:
                                 return VERY_LIGHT_WEIGHT.get();
-                        case Weight.LIGHT:
+                        case LIGHT:
                                 return LIGHT_WEIGHT.get();
-                        case Weight.MEDIUM:
+                        case MEDIUM:
                                 return MEDIUM_WEIGHT.get();
-                        case Weight.HEAVY:
+                        case HEAVY:
                                 return HEAVY_WEIGHT.get();
-                        case Weight.VERY_HEAVY:
+                        case VERY_HEAVY:
                                 return VERY_HEAVY_WEIGHT.get();
                         default:
+                                // any other item defaults to this int
                                 return VERY_LIGHT_WEIGHT.get();
                 }
         }
