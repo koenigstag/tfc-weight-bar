@@ -8,7 +8,7 @@ This is a simple TFC addon that adds a weight points to all items in player inve
 
 - This mod requires the Curios API v5.10.0+
 - This mod requires the TFCCuriosWeight v1.0.0+
-- This mod requires TerraFirmaCraft v3.2.7 for mc 1.20+
+- This mod requires TerraFirmaCraft v3.2.7+ for mc 1.20
 
 ## Changelog
 
