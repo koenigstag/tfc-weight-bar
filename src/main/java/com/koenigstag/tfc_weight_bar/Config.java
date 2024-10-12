@@ -26,6 +26,10 @@ public class Config {
                         .comment("Enable DEBUG mode. Default: false")
                         .define("debug_mode", false);
 
+        private static final ForgeConfigSpec.BooleanValue ENABLE_UI_BAR = BUILDER
+                        .comment("Enable weight bar on UI. Default: true")
+                        .define("enable_ui_bar", true);
+
         private static final ForgeConfigSpec.BooleanValue ENABLE_WEIGHT_DEBUFFS = BUILDER
                         .comment("Whether to enable weight debuffs. Default: true")
                         .define("enable_weight_debuffs", true);
@@ -75,6 +79,7 @@ public class Config {
 
         public static boolean enableModCalculations;
         public static boolean debugMode;
+        public static boolean enableUIBar;
         public static List<ISlotType> curios_slots;
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
@@ -87,6 +92,8 @@ public class Config {
                 enableModCalculations = ENABLE_MOD.get();
 
                 debugMode = DEBUG_MODE.get();
+
+                enableUIBar = ENABLE_UI_BAR.get();
 
                 curios_slots = SLOT_NAME_STRINGS.get().stream()
                                 .map(slotId -> CuriosApi.getSlot(slotId, getIsClient()).get())

@@ -23,6 +23,8 @@ public class TFCWeightBar {
 
     ForgeEventHandler.init();
 
+    ForgeClientEventHandler.init();
+
     ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
   }
 

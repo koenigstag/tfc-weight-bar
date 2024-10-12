@@ -27,9 +27,14 @@ public class WeightBarHelpers {
     return Config.maxInvWeight;
   }
 
-  public static double getBarPercentage(int currentWeight, Player player) {
+  public static double getBarPercentage(int playerInvWeight, Player player) {
     // 80 / 100 = 0.8
-    return currentWeight / getMaxInventoryWeight(player);
+    return (double) playerInvWeight / (double) getMaxInventoryWeight(player);
+  }
+
+  public static double getBarPercentage(int playerInvWeight, int maxInvWeight) {
+    // 80 / 100 = 0.8
+    return (double) playerInvWeight / (double) maxInvWeight;
   }
 
   public static int getItemStackWeightInt(ItemStack itemStack) {
@@ -95,7 +100,8 @@ public class WeightBarHelpers {
   }
 
   public static boolean isPlayerExhausted(int playerInvWeight, int maxInvWeight) {
-    Constants.debug("isPlayerExhausted: " + playerInvWeight + " >= " + "( " + maxInvWeight + " * " + Config.getExhaustedWeightCoefficient() + " )");
+    Constants.debug("isPlayerExhausted: " + playerInvWeight + " >= " + "( " + maxInvWeight + " * "
+        + Config.getExhaustedWeightCoefficient() + " )");
     return playerInvWeight >= (maxInvWeight * Config.getExhaustedWeightCoefficient());
   }
 
@@ -103,6 +109,19 @@ public class WeightBarHelpers {
     Constants.debug("isPlayerOverburdened: " + playerInvWeight + " > " + maxInvWeight);
 
     return playerInvWeight > maxInvWeight;
+  }
+
+  public static String getBarColor(int playerInvWeight, int maxInvWeight, int hugeHeavyCount) {
+    boolean isOverburdened = getIsOverburdened(playerInvWeight, maxInvWeight, hugeHeavyCount);
+    boolean isExhausted = getIsExhausted(playerInvWeight, maxInvWeight, hugeHeavyCount);
+
+    if (isOverburdened) {
+      return Config.getOverburdenedBarColor();
+    } else if (isExhausted) {
+      return Config.getExhaustedBarColor();
+    } else {
+      return Config.getNormalBarColor();
+    }
   }
 
   public static MobEffectInstance getOverburdened(boolean visible) {
@@ -113,5 +132,14 @@ public class WeightBarHelpers {
   public static MobEffectInstance getExhausted(boolean visible) {
     return new MobEffectInstance(TFCEffects.EXHAUSTED.get(), Config.calculateWeightEachNTicks + 5, 0, false,
         visible);
+  }
+
+  public static boolean getIsExhausted(int playerInvWeight, int maxInvWeight, int hugeHeavyCount) {
+    return WeightBarHelpers.isPlayerExhausted(playerInvWeight, maxInvWeight) || hugeHeavyCount >= 1;
+  }
+
+  public static boolean getIsOverburdened(int playerInvWeight, int maxInvWeight, int hugeHeavyCount) {
+    return WeightBarHelpers.isPlayerOverburdened(playerInvWeight, maxInvWeight)
+        || hugeHeavyCount >= 2;
   }
 }
