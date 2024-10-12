@@ -80,6 +80,9 @@ dependencies {
     implementation fg.deobf("curse.maven:curios-forge-309927:$curiosFileID")
 
     implementation fg.deobf("com.koenigstag:tfc_curios_weight:$tfc_curios_weight_version")
+
+    // uncomment when approved
+    // implementation fg.deobf("com.koenigstag:tfc_curios_weight-1120348:$tfcCuriosFileID")
 }
 
 tasks.named('processResources', ProcessResources).configure {
