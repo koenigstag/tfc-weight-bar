@@ -1,12 +1,13 @@
-# TFC Curios Weight
+# TFC Weight Bar
 
 ## About
 
-This is a simple TFC addon that adds a weight calculations to the TFC mod for Curios slots. It is a copy of the same calculations for player inventory from TFC but for Curios slots.
+This is a simple TFC addon that adds a weight points to all items in player inventory and Curios slots. If weight points exceed some amount player will receive debuff
 
 ## Requirements
 
 - This mod requires the Curios API v5.10.0+
+- This mod requires the TFCCuriosWeight v1.0.0+
 - This mod requires TerraFirmaCraft v3.2.7 for mc 1.20+
 
 ## Changelog
