@@ -37,44 +37,60 @@ public final class ForgeEventHandler {
       // set current weight do display
       WeightBarGUI.changeCurrentWeight(playerInvWeight);
 
-      boolean isOverburdened = WeightBarHelpers.isPlayerOverburdened(playerInvWeight, maxInvWeight)
-          || hugeHeavyCount >= 2;
+      boolean isOverburdened = getIsOverburdened(playerInvWeight, maxInvWeight, hugeHeavyCount);
 
       if (isOverburdened) {
-        // if overburdened, set flag
         WeightBarGUI.setIsOverburdened(true);
 
         // since player cannot move when overburdened - do not add exhaustion to food
         // data
 
-        // add player debuff
-        player.addEffect(WeightBarHelpers.getOverburdened(false));
+        if (Config.enableWeightDebuffs) {
+          player.addEffect(WeightBarHelpers.getOverburdened(false));
+        }
 
         return;
       }
 
-      boolean isExhausted = WeightBarHelpers.isPlayerExhausted(playerInvWeight, maxInvWeight) || hugeHeavyCount >= 1;
+      boolean isExhausted = getIsExhausted(playerInvWeight, maxInvWeight, hugeHeavyCount);
 
       if (isExhausted) {
-        // if overburdened, set flag
         WeightBarGUI.setIsExhausted(true);
 
         // Add exhaustion to food data
-        final int overburdened = playerInvWeight - maxInvWeight;
-        final int overburdenedPercent = (int) Mth.clamp(overburdened / (float) maxInvWeight * 100, 0, 100);
-
-        if (overburdenedPercent > 0) {
-          player.getFoodData().addExhaustion(overburdenedPercent * 0.01f);
+        if (Config.enableFoodExhaustion) {
+          addPlayerFoodExhaustion(player, playerInvWeight, maxInvWeight);
         }
 
-        // add player debuff
-        player.addEffect(WeightBarHelpers.getExhausted(false));
+        if (Config.enableWeightDebuffs) {
+          player.addEffect(WeightBarHelpers.getExhausted(false));
+        }
 
         return;
       }
 
       // if not overburdened or exhausted, reset flags
       WeightBarGUI.resetBooleanFlags();
+    }
+  }
+
+  private static boolean getIsExhausted(int playerInvWeight, int maxInvWeight, int hugeHeavyCount) {
+    return WeightBarHelpers.isPlayerExhausted(playerInvWeight, maxInvWeight) || hugeHeavyCount >= 1;
+  }
+
+  private static boolean getIsOverburdened(int playerInvWeight, int maxInvWeight, int hugeHeavyCount) {
+    return WeightBarHelpers.isPlayerOverburdened(playerInvWeight, maxInvWeight)
+        || hugeHeavyCount >= 2;
+  }
+
+  private static void addPlayerFoodExhaustion(Player player, int playerInvWeight, int maxInvWeight) {
+    final int overburdened = playerInvWeight - maxInvWeight;
+    final int overburdenedPercent = (int) Mth.clamp(overburdened / (float) maxInvWeight * 100, 0, 100);
+
+    if (overburdenedPercent > 0) {
+      player.getFoodData().addExhaustion(overburdenedPercent * 0.01f);
+    } else {
+      player.getFoodData().addExhaustion(0.01f);
     }
   }
 }

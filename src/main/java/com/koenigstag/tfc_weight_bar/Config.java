@@ -27,13 +27,17 @@ import java.util.stream.Collectors;
 public class Config {
         private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-        private static final ForgeConfigSpec.BooleanValue ENABLE_CURIOS_SLOTS_CHECK = BUILDER
-                        .comment("Whether to calculate Curios slots. Default: false")
-                        .define("enable_curios_slots_weight_check", true);
+        private static final ForgeConfigSpec.BooleanValue ENABLE_WEIGHT_DEBUFFS = BUILDER
+                        .comment("Whether to enable weight debuffs. Default: true")
+                        .define("enable_weight_debuffs", true);
+
+        public static final ForgeConfigSpec.BooleanValue ENABLE_FOOD_EXHAUSTION = BUILDER
+                        .comment("Whether to enable food exhaustion coefficient. Default: true")
+                        .define("enable_food_exhaustion", true);
 
         public static final ForgeConfigSpec.IntValue CALCULATE_WEIGHT_EACH_N_TICKS = BUILDER
                         .comment("Calculate weight every N ticks. Default: 20 ticks = 1 sec")
-                        .defineInRange("calculte_weight_each_n_ticks", 20, 1, Integer.MAX_VALUE);
+                        .defineInRange("calculate_weight_each_n_ticks", 20, 1, Integer.MAX_VALUE);
 
         private static final ForgeConfigSpec.IntValue MAX_INV_WEIGHT = BUILDER
                         .comment("Maximum inventory weight. Default: 1000")
@@ -74,6 +78,8 @@ public class Config {
         public static int maxInvWeight;
         public static int exhaustedWeightPercentage;
         public static int calculateWeightEachNTicks;
+        public static boolean enableWeightDebuffs;
+        public static boolean enableFoodExhaustion;
 
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
@@ -88,6 +94,10 @@ public class Config {
                 maxInvWeight = MAX_INV_WEIGHT.get();
 
                 exhaustedWeightPercentage = EXHAUSTED_WEIGHT_PERCENTAGE.get();
+
+                enableWeightDebuffs = ENABLE_WEIGHT_DEBUFFS.get();
+
+                enableFoodExhaustion = ENABLE_FOOD_EXHAUSTION.get();
         }
 
         public static int getWeightIntConfig(Weight weight) {
