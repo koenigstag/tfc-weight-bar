@@ -128,7 +128,9 @@ public class Config {
         }
 
         public static double getExhaustedWeightCoefficient() {
-                return exhaustedWeightPercentage / 100;
+                Constants.LOGGER.info("getExhaustedWeightCoefficient: " + exhaustedWeightPercentage + " / " + 100);
+
+                return (double) exhaustedWeightPercentage / (double) 100;
         }
 
         public static String getNormalBarColor() {

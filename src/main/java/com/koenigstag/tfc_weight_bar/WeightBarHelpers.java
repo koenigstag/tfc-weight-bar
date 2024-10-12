@@ -13,10 +13,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import net.dries007.tfc.common.capabilities.size.IItemSize;
 import net.dries007.tfc.common.capabilities.size.ItemSizeManager;
-import net.dries007.tfc.common.capabilities.size.Size;
-import net.dries007.tfc.common.capabilities.size.Weight;
 import net.dries007.tfc.common.TFCEffects;
-import net.dries007.tfc.util.Helpers;
 
 public class WeightBarHelpers {
 
@@ -39,10 +36,12 @@ public class WeightBarHelpers {
     if (!itemStack.isEmpty()) {
       IItemSize size = ItemSizeManager.get(itemStack);
 
+      int itemCount = itemStack.getCount();
+
       int weightInt = Config.getWeightIntConfig(size.getWeight(itemStack));
       int sizeInt = Config.getSizeIntConfig(size.getSize(itemStack));
 
-      return weightInt + sizeInt;
+      return Math.round((weightInt + sizeInt) * itemCount);
     }
 
     return 0;
@@ -96,10 +95,13 @@ public class WeightBarHelpers {
   }
 
   public static boolean isPlayerExhausted(int playerInvWeight, int maxInvWeight) {
-    return playerInvWeight >= maxInvWeight * Config.getExhaustedWeightCoefficient();
+    Constants.LOGGER.info("isPlayerExhausted: " + playerInvWeight + " >= " + "( " + maxInvWeight + " * " + Config.getExhaustedWeightCoefficient() + " )");
+    return playerInvWeight >= (maxInvWeight * Config.getExhaustedWeightCoefficient());
   }
 
   public static boolean isPlayerOverburdened(int playerInvWeight, int maxInvWeight) {
+    Constants.LOGGER.info("isPlayerOverburdened: " + playerInvWeight + " > " + maxInvWeight);
+
     return playerInvWeight > maxInvWeight;
   }
 

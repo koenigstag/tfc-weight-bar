@@ -5,11 +5,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.dries007.tfc.config.TFCConfig;
-import net.dries007.tfc.util.Helpers;
 
 import com.koenigstag.tfc_curios_weight.CuriosHelpers;
 
@@ -40,6 +38,8 @@ public final class ForgeEventHandler {
 
       // set current weight do display
       WeightBarGUI.changeCurrentWeight(playerInvWeight);
+
+      Constants.LOGGER.info("Huge Heavy Count: " + hugeHeavyCount);
 
       boolean isOverburdened = getIsOverburdened(playerInvWeight, maxInvWeight, hugeHeavyCount);
 
