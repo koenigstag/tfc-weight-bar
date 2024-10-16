@@ -7,10 +7,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -54,6 +56,22 @@ public class ForgeClientEventHandler {
       displayCurrentWeightClientMessage(player, level, playerInvWeight, maxInvWeight, hugeHeavyCount, barPercentage,
           barColor);
     }
+  }
+
+  @SubscribeEvent
+  public static void itemToolTip(ItemTooltipEvent event) {
+    ItemStack stack = event.getItemStack();
+    int weight = WeightBarHelpers.getItemStackWeightInt(stack);
+    int countOverweight = WeightBarHelpers.getItemOverweightInt(stack);
+
+    String weightText = "Вес: " + weight;
+
+    if (countOverweight >= 1) {
+      weightText += " (Слишком тяжелый)";
+    }
+
+    Component text = Component.literal(weightText);
+    event.getToolTip().add(text);
   }
 
   private static void displayCurrentWeightClientMessage(Player player, Level level, int playerInvWeight,

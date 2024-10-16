@@ -4,20 +4,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import net.dries007.tfc.common.capabilities.VesselLike;
 import net.dries007.tfc.common.capabilities.size.IItemSize;
 import net.dries007.tfc.common.capabilities.size.ItemSizeManager;
+import net.dries007.tfc.common.capabilities.size.Size;
+import net.dries007.tfc.common.capabilities.size.Weight;
 import net.dries007.tfc.common.items.VesselItem;
 import net.dries007.tfc.common.TFCEffects;
 
@@ -71,6 +69,19 @@ public class WeightBarHelpers {
       }
 
       return itemStackWeight + itemHolderWeight;
+    }
+
+    return 0;
+  }
+
+  public static int getItemOverweightInt(ItemStack itemStack) {
+    if (!itemStack.isEmpty()) {
+      IItemSize size = ItemSizeManager.get(itemStack);
+
+      if (size.getWeight(itemStack) == Weight.VERY_HEAVY
+          && size.getSize(itemStack) == Size.HUGE) {
+        return 1;
+      }
     }
 
     return 0;
